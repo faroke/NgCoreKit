@@ -11,6 +11,10 @@
       "cache": false,
       "persistent": true
     },
+    "studio": {
+      "cache": false,
+      "persistent": true
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },

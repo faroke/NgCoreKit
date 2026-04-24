@@ -2,6 +2,14 @@
 
 ## 2026-04-24
 
+CHORE: Add scripts/dev.sh — opens browser tabs (web, Swagger, Redis Commander, Prisma Studio) automatically once each service is ready
+
+CHORE: Add Redis Commander to docker-compose for dev Redis visualization on http://localhost:8081
+
+CHORE: Update root `dev` script — runs `docker compose up -d` then `turbo run dev studio`; adds `studio` task to turbo.json and `studio` script to apps/api for Prisma Studio
+
+
+
 CHORE: Add GitHub Actions CI workflow (.github/workflows/ci.yml) — lint, type check, build, and tests on every PR targeting main
 
 
