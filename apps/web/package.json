@@ -24,7 +24,7 @@
     "@ngcorekit/types": "workspace:*",
     "@ngrx/signals": "^19.0.0",
     "@tanstack/angular-query-experimental": "^5.75.0",
-    "better-auth": "^1.2.7",
+    "better-auth": "^1.6.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-angular": "^0.475.0",
