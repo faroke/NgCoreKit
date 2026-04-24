@@ -1,159 +1,163 @@
-# Turborepo starter
+# NgCoreKit
 
-This Turborepo starter is maintained by the Turborepo core team.
+Production-ready SaaS boilerplate — Angular 21 frontend + NestJS 11 API, structured as a Turborepo monorepo.
 
-## Using this example
+## Stack
 
-Run the following command:
+| Layer       | Technology                                                        |
+| ----------- | ----------------------------------------------------------------- |
+| Frontend    | Angular 21, NgRx Signals, TanStack Query, Tailwind CSS v4        |
+| Backend     | NestJS 11, Prisma ORM, PostgreSQL, Redis                         |
+| Auth        | Better Auth (email/password, OAuth: GitHub, Google)              |
+| Billing     | Stripe (subscriptions, webhooks)                                 |
+| Monorepo    | Turborepo + pnpm workspaces                                      |
+| Infra (dev) | Docker Compose (Postgres 16, Redis 7, Stripe CLI)                |
 
-```sh
-npx create-turbo@latest
+## Workspaces
+
+```
+NgCoreKit/
+├── apps/
+│   ├── api/          # NestJS API (port 3001)
+│   └── web/          # Angular app (port 4200)
+└── packages/
+    ├── config/       # Shared ESLint & TypeScript configs
+    └── types/        # Shared TypeScript types
 ```
 
-## What's inside?
+## Getting started
 
-This Turborepo includes the following packages/apps:
+### Prerequisites
 
-### Apps and Packages
+- Node.js >= 18
+- pnpm >= 9
+- Docker & Docker Compose
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### 1. Install dependencies
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+pnpm install
 ```
 
-Without global `turbo`, use your package manager:
+### 2. Configure environment
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
+```bash
+cp apps/api/.env.example apps/api/.env
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Edit `apps/api/.env` and fill in the required values (see [Environment variables](#environment-variables)).
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### 3. Start infrastructure
 
-```sh
-turbo build --filter=docs
+```bash
+docker compose up -d
 ```
 
-Without global `turbo`:
+This starts PostgreSQL, Redis, and the Stripe CLI webhook forwarder.
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+### 4. Run database migrations
+
+```bash
+cd apps/api
+pnpm prisma:migrate
 ```
 
-### Develop
+### 5. Start dev servers
 
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
+```bash
+# From repo root
+pnpm dev
 ```
 
-Without global `turbo`, use your package manager:
+- API: http://localhost:3001
+- Web: http://localhost:4200
+- Swagger: http://localhost:3001/api/docs
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
+## Commands
+
+### Root
+
+```bash
+pnpm dev          # Start all apps in parallel
+pnpm build        # Build all apps
+pnpm lint         # Lint all packages
+pnpm format       # Format with Prettier
+pnpm check-types  # TypeScript type checking
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+### API (`apps/api`)
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
+```bash
+pnpm dev              # Watch mode
+pnpm build            # Production build
+pnpm test:ci          # Run tests with Vitest
+pnpm prisma:generate  # Regenerate Prisma client
+pnpm prisma:migrate   # Apply pending migrations
 ```
 
-Without global `turbo`:
+### Web (`apps/web`)
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```bash
+pnpm dev        # Angular dev server
+pnpm build      # Production build
+pnpm test:ci    # Run tests with Vitest
+pnpm lint       # Angular ESLint
 ```
 
-### Remote Caching
+## Features
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Authentication & Authorization
+- Email / password sign-up and sign-in via **Better Auth**
+- OAuth: GitHub and Google
+- Session-based auth with global `AuthGuard` on the API
+- `@Public()` decorator to bypass auth on specific routes
+- Admin guard for back-office routes
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+### Organizations (multi-tenant)
+- Users belong to organizations
+- Organization switcher in the UI
+- Per-org settings, members, billing, and danger zone
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### Billing
+- Stripe subscription plans (Pro / Ultra, monthly & yearly)
+- Checkout session creation and webhook handling
+- Plans defined in `apps/api/src/billing/billing-plans.ts`
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+### Admin back-office
+- User management (list, detail, impersonation)
+- Organization management
+- Feedback review and status tracking
+- Analytics dashboard
 
-```sh
-cd my-turborepo
-turbo login
-```
+### Frontend pages
+- Public: Home (hero, features, pricing, FAQ, reviews), Blog, Docs, Changelog, About, Contact, Legal
+- Auth: Sign-in, Sign-up
+- App: Dashboard, Orgs, Settings
+- Account: Profile, change email/password, email preferences, danger zone
 
-Without global `turbo`, use your package manager:
+## Environment variables
 
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
+See `apps/api/.env.example` for the full list. Key variables:
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+| Variable                  | Description                                        |
+| ------------------------- | -------------------------------------------------- |
+| `DATABASE_URL`            | PostgreSQL connection string                       |
+| `BETTER_AUTH_SECRET`      | Secret key for Better Auth sessions                |
+| `BETTER_AUTH_URL`         | API base URL (used by Better Auth)                 |
+| `TRUSTED_ORIGINS`         | Comma-separated allowed CORS origins               |
+| `STRIPE_SECRET_KEY`       | Stripe secret key (`sk_test_...` or `sk_live_...`) |
+| `STRIPE_WEBHOOK_SECRET`   | Stripe webhook signing secret                      |
+| `GITHUB_CLIENT_ID/SECRET` | GitHub OAuth app credentials (optional)            |
+| `GOOGLE_CLIENT_ID/SECRET` | Google OAuth app credentials (optional)            |
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+## Project conventions
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+- **File naming**: kebab-case for all files
+- **API modules**: feature modules with Controller -> Service -> Prisma pattern
+- **Angular**: standalone components, Signal-based state (`@ngrx/signals`), TanStack Query for server state
+- **Forms**: Angular Signal Forms (`@angular/forms/signals`)
+- **Changelog**: every code change is logged in `CHANGELOG.md`
 
-```sh
-turbo link
-```
+## License
 
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+MIT
