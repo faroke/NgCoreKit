@@ -2,6 +2,10 @@
 
 ## 2026-04-24
 
+CHORE: Expand init-project skill Step 5 with full env variable tables and stripe listen local webhook setup instructions
+
+
+
 CHORE: Tighten .gitignore (add .planning/, .claude/memory/, .angular/, pnpm-debug.log*), fix apps/api/.env.example (add TRUSTED_ORIGINS, remove unused REDIS_URL), wire Angular environment files — create src/environments/environment.ts + environment.prod.ts, add fileReplacements in angular.json, provide API_URL token from environment in app.config.ts, remove apps/web/.env.example
 
 
