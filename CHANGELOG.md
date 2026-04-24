@@ -2,6 +2,10 @@
 
 ## 2026-04-24
 
+CHORE: Add GitHub Actions CI workflow (.github/workflows/ci.yml) — lint, type check, build, and tests on every PR targeting main
+
+
+
 CHORE: Expand init-project skill Step 5 with full env variable tables and stripe listen local webhook setup instructions
 
 
