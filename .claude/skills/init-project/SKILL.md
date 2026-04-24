@@ -1,13 +1,13 @@
 ---
 name: init-project
-description: Initialize NgCoreKit project with app name, purpose, theme, and environment configuration
+description: Initialize NgCoreKit project with app name, theme, and environment configuration
 argument-hint: "[app-name]"
 ---
 
 # Init Project - NgCoreKit Initialization Workflow
 
 <objective>
-Initialize an NgCoreKit project by gathering project information, updating CLAUDE.md files, configuring app settings, applying a theme, and setting up environment variables for both the NestJS API and Angular frontend.
+Initialize an NgCoreKit project by gathering the app name, applying a custom theme from Zard UI, and setting up environment variables for both the NestJS API and Angular frontend.
 </objective>
 
 <when_to_use>
@@ -21,39 +21,35 @@ Use this workflow when:
 **Arguments:**
 - `[app-name]` - Optional app name to skip the first question
 
-**No flags** - This workflow is fully interactive to gather all necessary information.
+**No flags** - This workflow is fully interactive.
 </parameters>
 
 <process>
 
 ## Step 1 — Gather Info
 
-Ask the user:
+Ask the user **only**:
 1. App name (if not provided as argument)
-2. App purpose / main description
-3. Main features (list)
-4. Target audience
-5. Whether they have a PRD or architecture document to share
+2. Theme CSS — tell the user:
+   > Rendez-vous sur **https://zardui.com/themes**, personnalisez votre thème, puis copiez le CSS généré et collez-le ici.
+
+Wait for the user to paste the CSS before continuing.
 
 ## Step 2 — Update CLAUDE.md files
 
-Update three CLAUDE.md files:
-- Root `CLAUDE.md` — Update "Monorepo Structure" section to reflect active workspaces
-- `apps/api/CLAUDE.md` — Update "About" section with project description
-- `apps/web/CLAUDE.md` — Update "About" section with project description
+Update three CLAUDE.md files with the app name:
+- Root `CLAUDE.md` — Update "Monorepo Structure" section (app name in title/description)
+- `apps/api/CLAUDE.md` — Update "About" section with the app name
+- `apps/web/CLAUDE.md` — Update "About" section with the app name
 
 ## Step 3 — Update configuration files
 
 - `apps/api/src/main.ts` — Update app title in Swagger config
 - `apps/web/src/app/app.config.ts` — Update any app-level configuration
-- Update environment variables references (app name, description, URLs)
 
-## Step 4 — Update theme
+## Step 4 — Apply theme
 
-NgCoreKit uses TailwindCSS v4. To apply a theme:
-- Check `apps/web/src/app/app.css` for CSS custom properties
-- Update `--primary`, `--secondary`, `--accent` colors if requested
-- Keep consistent with Zard UI component expectations
+NgCoreKit uses TailwindCSS v4 with Zard UI. Replace the **entire contents** of `apps/web/src/app/app.css` with the CSS pasted by the user (no modifications). This CSS already contains all `:root` and `.dark` variable declarations expected by Zard UI components.
 
 ## Step 5 — Setup .env files
 
@@ -114,8 +110,7 @@ Note: This secret is temporary and changes each time you run `stripe listen`. Fo
 </important_files>
 
 <success_criteria>
-- Root and workspace CLAUDE.md files updated with project info
-- App name consistent across all config files
+- App name consistent across all config files and CLAUDE.md files
+- Theme CSS from Zard UI fully replaced in `apps/web/src/app/app.css`
 - Environment files created or updated
-- Theme applied if requested
 </success_criteria>
