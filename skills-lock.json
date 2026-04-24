@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "angular-developer": {
+      "source": "angular/skills",
+      "sourceType": "github",
+      "computedHash": "b7764c591c965d85f95f1d4f6d3620b6ab92a1b1fedbcdead7d59e946fc3fd2e"
+    },
+    "nestjs-best-practices": {
+      "source": "kadajett/agent-nestjs-skills",
+      "sourceType": "github",
+      "computedHash": "1b6f82e889d19d305e38e35594de08eca0242321f353cafa4cf5e61dd3aa1a73"
+    }
+  }
+}

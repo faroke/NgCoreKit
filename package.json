@@ -16,5 +16,13 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.27.7",
+      "@esbuild/linux-x64": "0.27.7",
+      "@types/node": "24",
+      "sass": "1.99.0"
+    }
   }
 }

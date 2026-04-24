@@ -1,0 +1,5 @@
+# Build output
+dist/
+
+# Prisma generated client (regenerated via pnpm prisma:generate)
+src/generated/

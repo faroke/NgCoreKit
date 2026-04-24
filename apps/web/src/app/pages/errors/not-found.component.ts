@@ -1,0 +1,25 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-not-found',
+  imports: [RouterLink],
+  template: `
+    <div class="flex min-h-screen flex-col items-center justify-center gap-4 px-4 text-center">
+      <p class="text-6xl font-bold text-muted-foreground/40">404</p>
+      <h1 class="text-2xl font-bold">Page not found</h1>
+      <p class="max-w-sm text-muted-foreground">
+        The page you are looking for does not exist or has been moved.
+      </p>
+      <a
+        routerLink="/"
+        class="rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+      >
+        Back to home
+      </a>
+    </div>
+  `,
+})
+export class NotFoundComponent {}

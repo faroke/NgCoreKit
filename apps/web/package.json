@@ -1,28 +1,48 @@
 {
-  "name": "web",
-  "version": "0.1.0",
-  "type": "module",
+  "name": "@ngcorekit/web",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3000",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint --max-warnings 0",
-    "check-types": "next typegen && tsc --noEmit"
+    "dev": "ng serve",
+    "build": "ng build",
+    "lint": "ng lint",
+    "lint:ci": "ng lint --no-fix",
+    "check-types": "tsc --noEmit -p tsconfig.app.json",
+    "test:ci": "vitest run",
+    "test:cov": "vitest run --coverage"
   },
+  "packageManager": "pnpm@9.0.0",
   "dependencies": {
-    "@repo/ui": "workspace:*",
-    "next": "16.2.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "@angular/animations": "^21.2.0",
+    "@angular/cdk": "^21.2.0",
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@ngcorekit/types": "workspace:*",
+    "@ngrx/signals": "^19.0.0",
+    "@tanstack/angular-query-experimental": "^5.75.0",
+    "better-auth": "^1.2.7",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-angular": "^0.475.0",
+    "rxjs": "~7.8.0",
+    "tailwind-merge": "^3.1.0",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
-    "@types/node": "^22.15.3",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
-    "eslint": "^9.39.1",
-    "typescript": "5.9.2"
+    "@angular/build": "^21.2.8",
+    "@angular/cli": "^21.2.8",
+    "@angular/compiler-cli": "^21.2.0",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@vitest/coverage-v8": "^4.0.0",
+    "angular-eslint": "^19.0.0",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
   }
 }
