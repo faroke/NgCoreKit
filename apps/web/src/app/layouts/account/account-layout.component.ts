@@ -9,7 +9,7 @@ import {
   Trash2,
   User,
 } from "lucide-angular";
-import { AuthStore } from "../../core/auth/auth.store";
+import { AccountStore } from "../../core/stores/account.store";
 
 @Component({
   standalone: true,
@@ -77,14 +77,14 @@ import { AuthStore } from "../../core/auth/auth.store";
         </nav>
 
         <div class="border-t p-3">
-          @if (authStore.user(); as user) {
+          @if (accountStore.profile(); as profile) {
             <div class="flex items-center gap-2 rounded-md px-2 py-1.5">
               <div class="flex h-7 w-7 items-center justify-center rounded-full bg-muted text-xs font-medium shrink-0">
-                {{ user.name[0]?.toUpperCase() }}
+                {{ profile.name[0]?.toUpperCase() }}
               </div>
               <div class="min-w-0 flex-1">
-                <p class="truncate text-xs font-medium">{{ user.name }}</p>
-                <p class="truncate text-xs text-muted-foreground">{{ user.email }}</p>
+                <p class="truncate text-xs font-medium">{{ profile.name }}</p>
+                <p class="truncate text-xs text-muted-foreground">{{ profile.email }}</p>
               </div>
             </div>
           }
@@ -99,7 +99,7 @@ import { AuthStore } from "../../core/auth/auth.store";
   `,
 })
 export class AccountLayoutComponent {
-  protected authStore = inject(AuthStore);
+  protected accountStore = inject(AccountStore);
 
   protected readonly userIcon = User;
   protected readonly settingsIcon = Settings;
